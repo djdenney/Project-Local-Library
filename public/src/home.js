@@ -52,7 +52,12 @@ function getMostPopularAuthors(books, authors) {
   let mostPopularAuthors = bookList.map((book) => {
     for (let author in authors) {
       const name = `${authors[author].name.first} ${authors[author].name.last}`
-      const count = book.borrows.length
+      const count = books.reduce((acc, book) => {
+        if (book.authorId === authors[author].id) {
+          acc += book.borrows.length
+        }
+        return acc
+      }, 0)
       if (authors[author].id === book.authorId) {
         return {name: name, count: count}
       }
